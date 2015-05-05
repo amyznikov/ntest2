@@ -1,0 +1,42 @@
+#!/bin/bash
+
+fname="$1"
+title="$2"
+
+if [[ -z "$fname" ]] ; then
+  echo -e "Usage:\n";
+  echo -e " plot-ntest2 <ntest2.dat> [title]\n";
+  exit 1;
+fi
+
+
+epsfile=${fname}.eps
+pdffile=${fname}.pdf
+
+
+sn="column('sn')"
+st="column('st')"
+rt="column('rt')"
+np="column('n')"
+
+
+
+{
+cat <<EOF
+
+  set terminal postscript enhanced color landscape "Arial,8"
+  set output '${epsfile}'
+  set title '$title'
+     
+  set grid xtics ytics lt 1 lw 0.1 lc rgb "#A0A0A0"
+
+  set xlabel 'SN'
+  set xtics font ",6"
+  
+  set ylabel 'Reply time, us'
+  set ytics font ",6"
+  
+  plot '${fname}' u ($sn):($rt-$st) w l lt 1 lw 0 lc rgb "blue" notitle
+  
+EOF
+} | gnuplot && ps2pdf ${epsfile} ${pdffile} 

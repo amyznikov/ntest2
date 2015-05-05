@@ -59,7 +59,7 @@ static uint16_t listen_port;
 static char send_address[256];
 static uint16_t send_port;
 
-static int64_t send_interval = 40000; /* usec */
+static int64_t send_interval = -1; /* usec */
 static int pktsize = -1;
 static volatile int stop_sender_thread = 0;
 static volatile int stop_receiver_thread = 0;
@@ -163,7 +163,7 @@ static void save_meauremenrs()
     return;
   }
 
-  fprintf(stderr, "Saving data...\n");
+  // fprintf(stderr, "Saving data...\n");
 
   if ( !(fp = fopen(output_filename, "w")) ) {
     fprintf(stderr, "%s() %d : fopen('%s') fails: %s\n", __func__, __LINE__, output_filename, strerror(errno));
@@ -213,7 +213,7 @@ static void * client_mode_sender_thread(void * arg)
 
   struct pkt pkts[2];
 
-  fprintf(stderr, "%s() %d : thread started\n", __func__, __LINE__);
+  // fprintf(stderr, "%s() %d : thread started\n", __func__, __LINE__);
 
   so = (int) (ssize_t) (arg);
 
@@ -286,7 +286,7 @@ static void * client_mode_sender_thread(void * arg)
     }
   }
 
-  fprintf(stderr, "%s() %d : thread finished\n", __func__, __LINE__);
+  //fprintf(stderr, "%s() %d : thread finished\n", __func__, __LINE__);
   return NULL;
 }
 
@@ -313,7 +313,7 @@ static void * client_mode_receiver_thread( void * arg )
   int nfds;
 
 
-  fprintf(stderr, "%s() %d : thread started\n", __func__, __LINE__);
+  // fprintf(stderr, "%s() %d : thread started\n", __func__, __LINE__);
 
   so = (int) (ssize_t) (arg);
 
@@ -377,7 +377,7 @@ static void * client_mode_receiver_thread( void * arg )
 
   stop_sender_thread = 1;
 
-  fprintf(stderr, "%s() %d : thread finished\n", __func__, __LINE__);
+  //fprintf(stderr, "%s() %d : thread finished\n", __func__, __LINE__);
   return NULL;
 }
 
@@ -436,7 +436,7 @@ end:
   }
 
   if ( receiver_thread_id != 0 ) {
-    fprintf(stderr, "%s() %d : stopping receiver_thread\n", __func__, __LINE__);
+    // fprintf(stderr, "%s() %d : stopping receiver_thread\n", __func__, __LINE__);
     stop_receiver_thread = 1;
     pthread_join(receiver_thread_id, NULL);
   }

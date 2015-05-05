@@ -52,11 +52,11 @@ delays = (rt(filter)-st(filter))/1000; % usec -> msec
 min_delay = min(delays);
 max_delay = max(delays);
 avg_delay = mean(delays);
-most_frequent_delay = mode(delays);
 standard_deviation = iqr(delays);
 
 printf("min delay        : %g msec\n", min_delay);
 printf("max delay        : %g msec\n", max_delay);
 printf("averaged delay   : %g msec\n", avg_delay);
-printf("mode             : %g msec\n", most_frequent_delay);
 printf("std deviation    : %g msec\n", standard_deviation);
+
+

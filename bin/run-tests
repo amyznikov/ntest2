@@ -1,0 +1,24 @@
+#! /bin/bash
+
+outdir="test-$(date +%F--%T)"
+mkdir -p $outdir || exit 1;
+
+for f in none separate inline ; do
+
+  echo "--------------------------";
+  echo "DUP: $f";
+  
+  timestamp="$(date '+%F %T')"
+  
+  
+  ./ntest2 send=crkdev1.special-is.com:7001 \
+         n=7500 \
+         interval=40 \
+         do=2 \
+         dup=${f} \
+         -o ${outdir}/dup-${f}.dat ;
+         
+  ./analyze-ntest2 ${outdir}/dup-${f}.dat
+  ./plot-ntest2 ${outdir}/dup-${f}.dat "dup:$f date:$timestamp" 
+  
+done
