@@ -40,7 +40,7 @@ LDFLAGS = $(CFLAGS)
 
 STRIP = $(cross)strip --strip-all
 
-LDLIBS += 
+LDLIBS += -lrt
 
 
 #########################################
