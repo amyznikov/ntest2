@@ -1,0 +1,62 @@
+#! /usr/bin/octave -q
+
+
+function [N, sn,st,rt,np] = load_ntest2_dat(filename)
+
+  fp = fopen(filename,"r"); % open input file
+  fgets(fp); % skip header
+  S = fscanf(fp,"%d %d %d %d",[4, Inf])'; % read matrix 
+  fclose(fp); % close input file
+
+  N = size(S,1); % number of rows
+  sn = S(1:N, 1); % packet serial numbers
+  st = S(1:N, 2); % packet send time
+  rt = S(1:N, 3); % packet receive time
+  np = S(1:N, 4); % number of received packets
+  
+end
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+if ( nargin  < 1  )
+  printf("Usage:\n");
+  printf("  analyze-ntest2 <ntest2.dat>\n");
+  exit(1);
+end
+
+
+arg_list = argv();
+filename = arg_list{1};
+[N, sn,st,rt,np] = load_ntest2_dat(filename);
+
+
+%
+% loss ratio
+%
+packets_received = size(np(np!=0),1);
+packets_lost = size(np(np==0),1);
+
+printf("packets sent     : %d\n", N);
+printf("packets received : %d\n", packets_received);
+printf("packets lost     : %d\n", packets_lost);
+printf("loss ratio       : %g %%\n", packets_lost * 100 / N);
+
+
+% delay
+filter = np != 0;
+delays = (rt(filter)-st(filter))/1000; % usec -> msec
+min_delay = min(delays);
+max_delay = max(delays);
+avg_delay = mean(delays);
+most_frequent_delay = mode(delays);
+standard_deviation = iqr(delays);
+
+printf("min delay        : %g msec\n", min_delay);
+printf("max delay        : %g msec\n", max_delay);
+printf("averaged delay   : %g msec\n", avg_delay);
+printf("mode             : %g msec\n", most_frequent_delay);
+printf("std deviation    : %g msec\n", standard_deviation);
