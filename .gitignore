@@ -1,3 +1,5 @@
 *.o
 *~
 bin/ntest2
+.cproject
+.project
