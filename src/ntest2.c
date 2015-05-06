@@ -352,7 +352,7 @@ static void * client_mode_receiver_thread( void * arg )
       continue;
     }
 
-    fprintf(stderr, "%s() %d : size=%zd\n", __func__, __LINE__, size);
+    // fprintf(stderr, "%s() %d : size=%zd\n", __func__, __LINE__, size);
 
     rcvtick = gettime();
 
