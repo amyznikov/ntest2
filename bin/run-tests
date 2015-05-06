@@ -16,7 +16,7 @@ function do_test() {
     timestamp="$(date '+%F %T')"
 	  
 	./ntest2 send=crkdev1.special-is.com:7001 \
-        n=1500 \
+        n=3000 \
 	    interval=40 \
 	    do=${lag} \
 	    dup=${dup} \
