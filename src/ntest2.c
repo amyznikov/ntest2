@@ -45,6 +45,7 @@ enum {
 };
 
 /** Size must be 36 bytes as in libsphone6 */
+#pragma pack(push, 1)
 struct pkt {
   int32_t sn;         // 4
   int32_t n;          // 8
@@ -52,6 +53,7 @@ struct pkt {
   int64_t rcvtick;    // 24
   uint8_t fill[12];   // 36
 };
+#pragma pack(pop)
 
 static char listen_address[256];
 static uint16_t listen_port;
@@ -350,6 +352,7 @@ static void * client_mode_receiver_thread( void * arg )
       continue;
     }
 
+    fprintf(stderr, "%s() %d : size=%zd\n", __func__, __LINE__, size);
 
     rcvtick = gettime();
 
