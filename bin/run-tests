@@ -1,24 +1,40 @@
 #! /bin/bash
 
-outdir="test-$(date +%F--%T)"
-mkdir -p $outdir || exit 1;
 
-for f in none separate inline ; do
+function do_test() {
+	dup=$1
+	lag=$2
+    outdir="test-${dup}-${lag}-$(date +%F--%T)"
 
-  echo "--------------------------";
-  echo "DUP: $f";
-  
-  timestamp="$(date '+%F %T')"
-  
-  
-  ./ntest2 send=crkdev1.special-is.com:7001 \
-         n=7500 \
-         interval=40 \
-         do=2 \
-         dup=${f} \
-         -o ${outdir}/dup-${f}.dat ;
-         
-  ./analyze-ntest2 ${outdir}/dup-${f}.dat
-  ./plot-ntest2 ${outdir}/dup-${f}.dat "dup:$f date:$timestamp" 
-  
-done
+    echo "--------------------------";
+	echo "DUP:$dup";
+	echo "LAG:${lag}";
+    echo "OUTPUT TO $outdir"; 
+
+    mkdir -p $outdir || exit 1;
+	  
+    timestamp="$(date '+%F %T')"
+	  
+	./ntest2 send=crkdev1.special-is.com:7001 \
+        n=1500 \
+	    interval=40 \
+	    do=${lag} \
+	    dup=${dup} \
+	    -o ${outdir}/dup-${dup}-${lag}.dat ;
+	         
+    ./analyze-ntest2 ${outdir}/dup-${dup}-${lag}.dat
+	./plot-ntest2 ${outdir}/dup-${dup}-${lag}.dat "dup:$dup lag:${lag} date:$timestamp" 
+}
+
+do_test none 0
+do_test separate 0
+do_test separate 1
+do_test separate 2
+do_test separate 3
+do_test separate 4
+ 
+do_test none 0
+do_test inline 1
+do_test inline 2
+do_test inline 3
+do_test inline 4
