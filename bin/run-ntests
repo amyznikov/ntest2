@@ -15,15 +15,15 @@ function do_test() {
 	  
     timestamp="$(date '+%F %T')"
 	  
-	./ntest2 send=crkdev1.special-is.com:7001 \
+	ntest2 send=crkdev1.special-is.com:7001 \
         n=3000 \
 	    interval=40 \
 	    do=${lag} \
 	    dup=${dup} \
 	    -o ${outdir}/dup-${dup}-${lag}.dat ;
 	         
-    ./analyze-ntest2 ${outdir}/dup-${dup}-${lag}.dat
-	./plot-ntest2 ${outdir}/dup-${dup}-${lag}.dat "dup:$dup lag:${lag} date:$timestamp" 
+    ntest2-analyze ${outdir}/dup-${dup}-${lag}.dat
+	ntest2-plot ${outdir}/dup-${dup}-${lag}.dat "dup:$dup lag:${lag} date:$timestamp" 
 }
 
 do_test none 0
