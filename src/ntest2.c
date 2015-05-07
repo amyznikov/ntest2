@@ -439,7 +439,8 @@ end:
   }
 
   if ( receiver_thread_id != 0 ) {
-    // fprintf(stderr, "%s() %d : stopping receiver_thread\n", __func__, __LINE__);
+    // make a delay before finish to ensure all packets are received
+    us_sleep(10000000LL);
     stop_receiver_thread = 1;
     pthread_join(receiver_thread_id, NULL);
   }
