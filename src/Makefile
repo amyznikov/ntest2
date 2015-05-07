@@ -58,9 +58,15 @@ distclean: clean
 
 install: $(TARGET) $(DESTDIR)/$(bindir)
 	$(STRIP) --strip-all $(TARGET) && cp $(TARGET) $(DESTDIR)/$(bindir)
+	cp ../bin/ntest2-analyze $(DESTDIR)/$(bindir)/
+	cp ../bin/ntest2-plot $(DESTDIR)/$(bindir)/
+	cp ../bin/run-ntests $(DESTDIR)/$(bindir)/
 
 uninstall:
 	$(RM) $(DESTDIR)/$(bindir)/$(TARGET)
+	$(RM) $(DESTDIR)/$(bindir)/ntest2-analyze
+	$(RM) $(DESTDIR)/$(bindir)/ntest2-plot
+	$(RM) $(DESTDIR)/$(bindir)/run-ntests
 
 
 $(DESTDIR)/$(bindir):
